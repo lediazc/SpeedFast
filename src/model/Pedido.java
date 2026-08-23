@@ -1,22 +1,22 @@
 package model;
 
-public class Pedido{
+public abstract class Pedido{
 
     private int idPedido;
     private String direccionEntrega;
-    private String tipoPedido;
+    private double distanciaKm;
 
     /**
      * Constructor que permite crear un Pedido con todos sus datos.
      * @param idPedido Número para identidicar la solicitud.
      * @param direccionEntrega Ubicación de entrega de la solicitud.
-     * @param tipoPedido tipo de solicitud.
+     * @param distanciaKm distancia de entrega.
      */
-    public Pedido(int idPedido, String direccionEntrega, String tipoPedido){
+    public Pedido(int idPedido, String direccionEntrega, double distanciaKm){
 
         setIdPedido(idPedido);
         setDireccionEntrega(direccionEntrega);
-        setTipoPedido(tipoPedido);
+        setDistanciaKm(distanciaKm);
     }
 
     //Getters ----------------------------
@@ -45,9 +45,9 @@ public class Pedido{
      *
      * @return tipoPedido.
      */
-    public String getTipoPedido() {
+    public double getDistanciaKm() {
 
-        return tipoPedido;
+        return distanciaKm;
     }
 
     //Setters ----------------------------
@@ -75,13 +75,9 @@ public class Pedido{
     /**
      * Configura tipo de entrega.
      */
-    public void setTipoPedido(String tipoPedido) {
-        if(tipoPedido == null){
-            this.tipoPedido = "";
-            return;
-        }
+    public void setDistanciaKm(double distanciaKm) {
 
-        this.tipoPedido = tipoPedido.trim();
+        this.distanciaKm = distanciaKm;
     }
 
     // Métodos ----------------------------
@@ -90,8 +86,10 @@ public class Pedido{
         return
                 "Número de orden: " + idPedido + "\n"
                 + "Dirección: " + direccionEntrega + "\n"
-                + "Tipo: " + tipoPedido;
+                + "Distancia: " + distanciaKm + " km.";
     }
+
+    protected abstract String calcularTiempoEntrega(double distanciaKm);
 
     public String asignarRepartidor(){
         return "Asignando repartidor genérico..." + "\n" ;
