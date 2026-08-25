@@ -38,7 +38,7 @@ public class PedidoComida extends Pedido{
                 "Asignando repartidor..."                                                                   + "\n" +
                 "→ Verificando mochila térmica... OK"                                                       + "\n" +
                 "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
-                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm())  + "\n" ;
+                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm()) + " minutos"     + "\n" ;
     }
 
 }

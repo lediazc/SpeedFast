@@ -37,6 +37,6 @@ public class PedidoEncomienda extends Pedido{
                 "Asignando repartidor..."                                                                   + "\n" +
                 "→ Validando peso y embalaje... OK"                                                         + "\n" +
                 "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
-                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm()) + "\n" ;
+                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm()) + " minutos"     + "\n" ;
     }
 }
