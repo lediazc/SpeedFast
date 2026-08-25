@@ -89,7 +89,7 @@ public abstract class Pedido{
                 + "Distancia: " + distanciaKm + " km.";
     }
 
-    protected abstract String calcularTiempoEntrega(double distanciaKm);
+    protected abstract int calcularTiempoEntrega(double distanciaKm);
 
     public String asignarRepartidor(){
         return "Asignando repartidor genérico..." + "\n" ;

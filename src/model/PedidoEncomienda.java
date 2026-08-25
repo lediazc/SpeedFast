@@ -16,16 +16,11 @@ public class PedidoEncomienda extends Pedido{
 
     // Métodos ----------------------------
     @Override
-    protected String calcularTiempoEntrega(double distanciaKm) {
-        int tiempoEstandarSegundos = 20 * 60;
-        int tiempoDinamicoKilometro = 1 * 60 + 30;
+    protected int calcularTiempoEntrega(double distanciaKm){
+        int tarifaEstandar = 20;
+        double tarifaDinámica = 1.5 * distanciaKm;
 
-        int segundosTotales = tiempoEstandarSegundos + (int) Math.round(tiempoDinamicoKilometro * distanciaKm);
-
-        int minutos = segundosTotales / 60;
-        int segundos = segundosTotales % 60;
-
-        return minutos + " minutos y " + segundos + " segundos";
+        return (int) Math.round(tarifaEstandar + tarifaDinámica);
     }
 
     @Override
