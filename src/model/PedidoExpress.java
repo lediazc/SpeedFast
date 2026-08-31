@@ -34,14 +34,14 @@ public class PedidoExpress extends Pedido{
     public String asignarRepartidor() {
         return
                 "Buscando repartidor cercano..."             + "\n" +
-                mostrarDatosPedido()                         + "\n" ;
+                    mostrarResumen()                         + "\n" ;
     }
 
     @Override
     public String asignarRepartidor(String nombreRepartidor){
         return
                 "[Pedido Express]"                                                                          + "\n" +
-                mostrarDatosPedido()                                                                        + "\n" +
+                    mostrarResumen()                                                                        + "\n" +
                 "Asignando repartidor..."                                                                   + "\n" +
                 "→ Repartidor más cercano con disponibilidad inmediata encontrado."                         + "\n" +
                 "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +

@@ -27,14 +27,14 @@ public class PedidoComida extends Pedido{
     public String asignarRepartidor() {
         return
                 "Buscando repartidor con mochila térmica..." + "\n" +
-                mostrarDatosPedido()                         + "\n" ;
+                    mostrarResumen()                         + "\n" ;
     }
 
     @Override
     public String asignarRepartidor(String nombreRepartidor){
         return
                 "[Pedido Comida]"                                                                           + "\n" +
-                mostrarDatosPedido()                                                                        + "\n" +
+                    mostrarResumen()                                                                        + "\n" +
                 "Asignando repartidor..."                                                                   + "\n" +
                 "→ Verificando mochila térmica... OK"                                                       + "\n" +
                 "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +

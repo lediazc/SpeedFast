@@ -82,7 +82,7 @@ public abstract class Pedido{
 
     // Métodos ----------------------------
 
-    public String mostrarDatosPedido() {
+    public String mostrarResumen() {
         return
                 "Número de orden: " + idPedido + "\n"
                 + "Dirección: " + direccionEntrega + "\n"

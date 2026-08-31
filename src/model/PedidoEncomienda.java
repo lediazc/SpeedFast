@@ -27,13 +27,13 @@ public class PedidoEncomienda extends Pedido{
     public String asignarRepartidor() {
         return
                 "Buscando repartidor de encomiendas..."      + "\n" +
-                mostrarDatosPedido()                         + "\n" ;
+                    mostrarResumen()                         + "\n" ;
     }
     @Override
     public String asignarRepartidor(String nombreRepartidor){
         return
                 "[Pedido Encomienda]"                                                                       + "\n" +
-                mostrarDatosPedido()                                                                        + "\n" +
+                    mostrarResumen()                                                                        + "\n" +
                 "Asignando repartidor..."                                                                   + "\n" +
                 "→ Validando peso y embalaje... OK"                                                         + "\n" +
                 "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
