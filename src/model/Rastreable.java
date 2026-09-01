@@ -2,6 +2,6 @@ package model;
 
 public interface Rastreable {
 
-    void rastreable();
+    void verHistorial();
 
 }

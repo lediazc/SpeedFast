@@ -1,7 +1,6 @@
 package model;
 
 public interface Cancelable {
-
-    void cancelable();
+    void cancelar();
 
 }

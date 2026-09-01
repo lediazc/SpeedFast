@@ -1,6 +1,6 @@
 package model;
 
-public class PedidoExpress extends Pedido{
+public class PedidoExpress extends Pedido implements Reservable, Despachable, Cancelable{
 
     /**
      * Constructor que permite crear un Pedido con todos sus datos.
@@ -15,6 +15,30 @@ public class PedidoExpress extends Pedido{
     }
 
     // Métodos ----------------------------
+
+    @Override
+    public void reservar() {
+        System.out.println("Pedido express reservado correctamente."+ "\n" +
+                "→ Tu pedido tiene prioridad para localizar repartidor" + "\n"
+        );
+
+    }
+
+    @Override
+    public void despachar() {
+        System.out.println("Pedido express reservado y despachado con prioridad." + "\n" );
+
+        agregarAlHistorial("PedidoExpress #" + getIdPedido() + " - entregado por " + getRepartidorAsignado());
+
+    }
+
+    @Override
+    public void cancelar() {
+        System.out.println("Cancelando Pedido Express #" + getIdPedido() + "..." + "\n" +
+                "→ Pedido cancelado exitosamente." + "\n"
+        );
+    }
+
     @Override
     protected int calcularTiempoEntrega(double distanciaKm){
 
@@ -32,13 +56,20 @@ public class PedidoExpress extends Pedido{
 
     @Override
     public String asignarRepartidor() {
+        String nombreRepartidor = "Repartidor Anónimo";
+        setRepartidorAsignado(nombreRepartidor);
         return
-                "Buscando repartidor cercano..."             + "\n" +
-                    mostrarResumen()                         + "\n" ;
+                "[Pedido Express]"                                                                          + "\n" +
+                    mostrarResumen()                                                                        + "\n" +
+                "Asignando repartidor..."                                                                   + "\n" +
+                "→ Repartidor más cercano con disponibilidad inmediata encontrado."                         + "\n" +
+                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
+                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm())  + " minutos"    + "\n" ;
     }
 
     @Override
     public String asignarRepartidor(String nombreRepartidor){
+        setRepartidorAsignado(nombreRepartidor);
         return
                 "[Pedido Express]"                                                                          + "\n" +
                     mostrarResumen()                                                                        + "\n" +

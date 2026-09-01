@@ -1,10 +1,15 @@
 package model;
 
-public abstract class Pedido{
+import java.util.ArrayList;
+
+public abstract class Pedido implements Rastreable {
 
     private int idPedido;
     private String direccionEntrega;
     private double distanciaKm;
+    private String repartidorAsignado;
+
+    private static ArrayList<String> historial = new ArrayList<>();
 
     /**
      * Constructor que permite crear un Pedido con todos sus datos.
@@ -50,6 +55,10 @@ public abstract class Pedido{
         return distanciaKm;
     }
 
+    public String getRepartidorAsignado() {
+        return repartidorAsignado;
+    }
+
     //Setters ----------------------------
     /**
      * Configura el id del pedido con un valor absoluto.
@@ -80,7 +89,31 @@ public abstract class Pedido{
         this.distanciaKm = distanciaKm;
     }
 
+    protected void setRepartidorAsignado(String repartidorAsignado) {
+        this.repartidorAsignado = repartidorAsignado;
+    }
+
+    protected void agregarAlHistorial(String registro) {
+        historial.add(registro);
+    }
+
+    protected ArrayList<String> getHistorial() {
+        return historial;
+    }
+
     // Métodos ----------------------------
+
+
+    @Override
+    public void verHistorial() {
+
+        System.out.println("Historial:");
+
+        for (String registro : getHistorial()) {
+            System.out.println("------------- ");
+            System.out.println("- " + registro);
+        }
+    }
 
     public String mostrarResumen() {
         return

@@ -1,6 +1,6 @@
 package model;
 
-public class PedidoComida extends Pedido{
+public class PedidoComida extends Pedido implements Reservable, Despachable, Cancelable{
 
     /**
      * Constructor que permite crear un Pedido con todos sus datos.
@@ -16,6 +16,29 @@ public class PedidoComida extends Pedido{
 
     // Métodos ----------------------------
     @Override
+    public void reservar() {
+        System.out.println("Pedido de comida reservado correctamente."+ "\n" +
+                "→ En breve se le asignará un repartidor"+ "\n"
+        );
+
+    }
+
+    @Override
+    public void despachar() {
+        System.out.println("Pedido de comida despachado correctamente." + "\n" );
+
+        agregarAlHistorial("PedidoComida #" + getIdPedido() + " - entregado por " + getRepartidorAsignado());
+
+    }
+
+    @Override
+    public void cancelar() {
+        System.out.println("Cancelando Pedido Comida #" + getIdPedido() + "..." + "\n" +
+                        "→ Pedido cancelado exitosamente." + "\n"
+        );
+    }
+
+    @Override
     protected int calcularTiempoEntrega(double distanciaKm) {
         int tarifaEstandar = 15;
         double tarifaDinámica = 2 * distanciaKm;
@@ -25,13 +48,24 @@ public class PedidoComida extends Pedido{
 
     @Override
     public String asignarRepartidor() {
+
+
+        String nombreRepartidor = "Repartidor Anónimo";
+        setRepartidorAsignado(nombreRepartidor);
+
         return
-                "Buscando repartidor con mochila térmica..." + "\n" +
-                    mostrarResumen()                         + "\n" ;
+                "[Pedido Comida]"                                                                           + "\n" +
+                    mostrarResumen()                                                                        + "\n" +
+                "Asignando repartidor..."                                                                   + "\n" +
+                "→ Verificando mochila térmica... OK"                                                       + "\n" +
+                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
+                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm()) + " minutos"     + "\n" ;
     }
 
     @Override
     public String asignarRepartidor(String nombreRepartidor){
+
+        setRepartidorAsignado(nombreRepartidor);
         return
                 "[Pedido Comida]"                                                                           + "\n" +
                     mostrarResumen()                                                                        + "\n" +
