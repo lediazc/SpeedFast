@@ -26,7 +26,7 @@ public class PedidoExpress extends Pedido implements Reservable, Despachable, Ca
 
     @Override
     public void despachar() {
-        System.out.println("Pedido express reservado y despachado con prioridad." + "\n" );
+        System.out.println("Pedido express despachado con prioridad." + "\n" );
 
         agregarAlHistorial("PedidoExpress #" + getIdPedido() + " - entregado por " + getRepartidorAsignado());
 
