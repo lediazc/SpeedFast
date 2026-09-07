@@ -47,5 +47,7 @@ public class Main {
 
         // Ver historial
         pedidoComida.verHistorial();
+        pedidoEncomienda.verHistorial();
+        pedidoExpress.verHistorial();
     }
 }

@@ -47,19 +47,13 @@ public class PedidoComida extends Pedido implements Reservable, Despachable, Can
     }
 
     @Override
+    protected String getTituloHistorial() {
+        return "Historial gastronómico:";
+    }
+
+    @Override
     public String asignarRepartidor() {
-
-
-        String nombreRepartidor = "Repartidor Anónimo";
-        setRepartidorAsignado(nombreRepartidor);
-
-        return
-                "[Pedido Comida]"                                                                           + "\n" +
-                    mostrarResumen()                                                                        + "\n" +
-                "Asignando repartidor..."                                                                   + "\n" +
-                "→ Verificando mochila térmica... OK"                                                       + "\n" +
-                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
-                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm()) + " minutos"     + "\n" ;
+        return asignarRepartidor("Repartidor Anónimo");
     }
 
     @Override

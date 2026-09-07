@@ -47,16 +47,13 @@ public class PedidoEncomienda extends Pedido implements Reservable, Despachable,
     }
 
     @Override
+    protected String getTituloHistorial() {
+        return "Historial de encomiendas:";
+    }
+
+    @Override
     public String asignarRepartidor() {
-        String nombreRepartidor = "Repartidor Anónimo";
-        setRepartidorAsignado(nombreRepartidor);
-        return
-                "[Pedido Encomienda]"                                                                       + "\n" +
-                    mostrarResumen()                                                                        + "\n" +
-                "Asignando repartidor..."                                                                   + "\n" +
-                "→ Validando peso y embalaje... OK"                                                         + "\n" +
-                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
-                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm()) + " minutos"     + "\n" ;
+        return asignarRepartidor("Repartidor Anónimo");
     }
     @Override
     public String asignarRepartidor(String nombreRepartidor){

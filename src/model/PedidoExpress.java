@@ -52,19 +52,14 @@ public class PedidoExpress extends Pedido implements Reservable, Despachable, Ca
         return (int) Math.round(tarifaEstandar + tarifaDinámica);
     }
 
-
+    @Override
+    protected String getTituloHistorial() {
+        return "Historial de pedidos express:";
+    }
 
     @Override
     public String asignarRepartidor() {
-        String nombreRepartidor = "Repartidor Anónimo";
-        setRepartidorAsignado(nombreRepartidor);
-        return
-                "[Pedido Express]"                                                                          + "\n" +
-                    mostrarResumen()                                                                        + "\n" +
-                "Asignando repartidor..."                                                                   + "\n" +
-                "→ Repartidor más cercano con disponibilidad inmediata encontrado."                         + "\n" +
-                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
-                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm())  + " minutos"    + "\n" ;
+        return asignarRepartidor("Repartidor Anónimo");
     }
 
     @Override

@@ -9,7 +9,7 @@ public abstract class Pedido implements Rastreable {
     private double distanciaKm;
     private String repartidorAsignado;
 
-    private static ArrayList<String> historial = new ArrayList<>();
+    private ArrayList<String> historial = new ArrayList<>();
 
     /**
      * Constructor que permite crear un Pedido con todos sus datos.
@@ -103,14 +103,15 @@ public abstract class Pedido implements Rastreable {
 
     // Métodos ----------------------------
 
+    protected abstract String getTituloHistorial();
 
     @Override
     public void verHistorial() {
 
-        System.out.println("Historial:");
-
+        System.out.println("------------- ");
+        System.out.println(getTituloHistorial());
         for (String registro : getHistorial()) {
-            System.out.println("------------- ");
+
             System.out.println("- " + registro);
         }
     }
