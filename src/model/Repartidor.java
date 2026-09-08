@@ -30,7 +30,7 @@ public class Repartidor implements Runnable{
     public void run() {
         for (Pedido pedido : listaPedidos) {
 
-            System.out.println("El repartidor: " + nombreRepartidor + " está entregando el pedido : " + pedido.getClass().getSimpleName() + " N°: " + pedido.getIdPedido());
+            System.out.println("[Repartidor: " + nombreRepartidor + "] Entregando " + pedido.getClass().getSimpleName() + " #" + pedido.getIdPedido() + "...");
 
             try {
                 int tiempoEspera = (int) (Math.random() * 3000) + 1000;
@@ -42,9 +42,7 @@ public class Repartidor implements Runnable{
             }
 
 
-            System.out.println(
-                    "El repartidor: " + nombreRepartidor + " terminó de entregar el pedido N°: " + pedido.getIdPedido()
-            );
+            System.out.println("[Repartidor: " + nombreRepartidor + "] Pedido #" + pedido.getIdPedido() + " entregado.");
         }
     }
 }
