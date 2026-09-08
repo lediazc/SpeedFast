@@ -17,24 +17,24 @@ public class PedidoComida extends Pedido implements Reservable, Despachable, Can
     // Métodos ----------------------------
     @Override
     public void reservar() {
-        System.out.println("Pedido de comida reservado correctamente."+ "\n" +
-                "→ En breve se le asignará un repartidor"+ "\n"
+        agregarAlHistorial("Pedido de comida reservado correctamente."+ "\n" +
+                "→ En breve se le asignará un repartidor"
         );
 
     }
 
     @Override
     public void despachar() {
-        System.out.println("Pedido de comida despachado correctamente." + "\n" );
+        //System.out.println("Pedido de comida despachado correctamente." + "\n" );
 
-        agregarAlHistorial("PedidoComida #" + getIdPedido() + " - entregado por " + getRepartidorAsignado());
+        agregarAlHistorial("PedidoComida #" + getIdPedido() + " - despachado por " + getRepartidorAsignado());
 
     }
 
     @Override
     public void cancelar() {
-        System.out.println("Cancelando Pedido Comida #" + getIdPedido() + "..." + "\n" +
-                        "→ Pedido cancelado exitosamente." + "\n"
+        agregarAlHistorial("Cancelando Pedido Comida #" + getIdPedido() + "..." + "\n" +
+                        "→ Pedido cancelado exitosamente."
         );
     }
 
@@ -48,7 +48,7 @@ public class PedidoComida extends Pedido implements Reservable, Despachable, Can
 
     @Override
     protected String getTituloHistorial() {
-        return "Historial gastronómico:";
+        return "Historial Pedido Comida #" + getIdPedido() + ":";
     }
 
     @Override

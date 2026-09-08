@@ -17,24 +17,24 @@ public class PedidoEncomienda extends Pedido implements Reservable, Despachable,
     // Métodos ----------------------------
     @Override
     public void reservar() {
-        System.out.println("Encomienda reservada correctamente."+ "\n" +
-                "→ En breve se le asignará un repartidor" + "\n"
+        agregarAlHistorial("Encomienda reservada correctamente."+ "\n" +
+                "→ En breve se le asignará un repartidor"
         );
 
     }
 
     @Override
     public void despachar() {
-        System.out.println("Encomienda despachada correctamente." + "\n" );
+        //System.out.println("Encomienda despachada correctamente." + "\n" );
 
-        agregarAlHistorial("PedidoEncomienda #" + getIdPedido() + " - entregado por " + getRepartidorAsignado());
+        agregarAlHistorial("PedidoEncomienda #" + getIdPedido() + " - despachado por " + getRepartidorAsignado());
 
     }
 
     @Override
     public void cancelar() {
-        System.out.println("Cancelando Pedido Encomienda #" + getIdPedido() + "..." + "\n" +
-                "→ Pedido cancelado exitosamente." + "\n"
+        agregarAlHistorial("Cancelando Pedido Encomienda #" + getIdPedido() + "..." + "\n" +
+                "→ Pedido cancelado exitosamente."
         );
     }
 
@@ -48,7 +48,7 @@ public class PedidoEncomienda extends Pedido implements Reservable, Despachable,
 
     @Override
     protected String getTituloHistorial() {
-        return "Historial de encomiendas:";
+        return "Historial de encomiendas #" + getIdPedido() + ":";
     }
 
     @Override

@@ -18,24 +18,24 @@ public class PedidoExpress extends Pedido implements Reservable, Despachable, Ca
 
     @Override
     public void reservar() {
-        System.out.println("Pedido express reservado correctamente."+ "\n" +
-                "→ Tu pedido tiene prioridad para localizar repartidor" + "\n"
+        agregarAlHistorial("Pedido express reservado correctamente."+ "\n" +
+                "→ Tu pedido tiene prioridad para localizar repartidor"
         );
 
     }
 
     @Override
     public void despachar() {
-        System.out.println("Pedido express despachado con prioridad." + "\n" );
+        //System.out.println("Pedido express despachado con prioridad." + "\n" );
 
-        agregarAlHistorial("PedidoExpress #" + getIdPedido() + " - entregado por " + getRepartidorAsignado());
+        agregarAlHistorial("PedidoExpress #" + getIdPedido() + " - despachado por " + getRepartidorAsignado());
 
     }
 
     @Override
     public void cancelar() {
-        System.out.println("Cancelando Pedido Express #" + getIdPedido() + "..." + "\n" +
-                "→ Pedido cancelado exitosamente." + "\n"
+        agregarAlHistorial("Cancelando Pedido Express #" + getIdPedido() + "..." + "\n" +
+                "→ Pedido cancelado exitosamente."
         );
     }
 
@@ -54,7 +54,7 @@ public class PedidoExpress extends Pedido implements Reservable, Despachable, Ca
 
     @Override
     protected String getTituloHistorial() {
-        return "Historial de pedidos express:";
+        return "Historial de pedidos express #" + getIdPedido() + ":";
     }
 
     @Override
