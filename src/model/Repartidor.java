@@ -1,48 +1,46 @@
 package model;
 
-import java.util.ArrayList;
-
 public class Repartidor implements Runnable{
 
     private String nombreRepartidor;
-    private ArrayList<Pedido> listaPedidos = new ArrayList<>();
+    private ZonaDeCarga zonaDeCarga;
 
-    public Repartidor(String nombreRepartidor) {
+    public Repartidor(String nombreRepartidor, ZonaDeCarga zonaDeCarga) {
         this.nombreRepartidor = nombreRepartidor;
+        this.zonaDeCarga = zonaDeCarga;
     }
 
     //Getters ----------------------------
     /**
-     * Obtiene el id del pedido.
+     * Obtiene el nombre del repartidor.
      *
-     * @return id del pedido.
+     * @return nombreRepartidor.
      */
     public String getNombreRepartidor() {
 
         return nombreRepartidor;
     }
 
-    public void agregarPedido(Pedido pedido) {
-        listaPedidos.add(pedido);
-    }
-
     @Override
-    public void run() {
-        for (Pedido pedido : listaPedidos) {
+    public void run(){
 
-            System.out.println("[Repartidor: " + nombreRepartidor + "] Entregando " + pedido.getClass().getSimpleName() + " #" + pedido.getIdPedido() + "...");
-
-            try {
+        while (!Thread.currentThread().isInterrupted()) {
+            try{
+                Pedido pedido = zonaDeCarga.retirarPedido();
+                pedido.asignarRepartidor(nombreRepartidor);
+                pedido.setEstado(EstadoPedido.EN_REPARTO);
+                System.out.println("[Repartidor: " + nombreRepartidor + "] Entregando " + pedido.getClass().getSimpleName() + " #" + pedido.getIdPedido() + "...");
                 int tiempoEspera = (int) (Math.random() * 3000) + 1000;
                 Thread.sleep(tiempoEspera);
-            } catch (InterruptedException e) {
+
+                pedido.setEstado(EstadoPedido.ENTREGADO);
+                System.out.println("[Repartidor: " + nombreRepartidor + "] Pedido #" + pedido.getIdPedido() + " entregado.");
+
+            } catch(InterruptedException e){
                 System.out.println("La entrega fue interrumpida.");
                 Thread.currentThread().interrupt();
                 break;
             }
-
-
-            System.out.println("[Repartidor: " + nombreRepartidor + "] Pedido #" + pedido.getIdPedido() + " entregado.");
         }
     }
 }

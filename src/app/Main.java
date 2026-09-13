@@ -1,9 +1,6 @@
 package app;
 
-import model.PedidoComida;
-import model.PedidoEncomienda;
-import model.PedidoExpress;
-import model.Repartidor;
+import model.*;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -12,6 +9,9 @@ public class Main {
 
     public static void main(String[] args) {
 
+
+
+        ZonaDeCarga zonaDeCarga = new ZonaDeCarga();
         ExecutorService executor = Executors.newFixedThreadPool(3);
         PedidoComida pedidoComida = new PedidoComida(101, "Av. Providencia 1234", 12.0);
         PedidoComida pedidoComidaDos = new PedidoComida(102, "Av. Providencia 4321", 11.6);
@@ -25,48 +25,47 @@ public class Main {
         PedidoExpress pedidoExpressDos = new PedidoExpress(106, "Av. Las Condes 2112", 24);
         PedidoExpress pedidoExpressTres = new PedidoExpress(109, "Av. Apoquindo 4500", 18.3);
 
-
-        Repartidor repartidorUno = new Repartidor("Camila");
-        Repartidor repartidorDos = new Repartidor("Luis");
-        Repartidor repartidorTres = new Repartidor("Diego");
+        Repartidor repartidorUno = new Repartidor("Camila", zonaDeCarga);
+        Repartidor repartidorDos = new Repartidor("Luis", zonaDeCarga);
+        Repartidor repartidorTres = new Repartidor("Diego", zonaDeCarga);
 
         // Pedido de comida
         pedidoComida.reservar();
-        pedidoComida.asignarRepartidor(repartidorUno.getNombreRepartidor());
+
         pedidoComida.despachar();
 
         pedidoComidaDos.reservar();
-        pedidoComidaDos.asignarRepartidor();
+
         pedidoComidaDos.cancelar();
 
         pedidoComidaTres.reservar();
-        pedidoComidaTres.asignarRepartidor(repartidorUno.getNombreRepartidor());
+
         pedidoComidaTres.despachar();
 
         // Pedido de encomienda
         pedidoEncomienda.reservar();
-        pedidoEncomienda.asignarRepartidor(repartidorDos.getNombreRepartidor());
+
         pedidoEncomienda.despachar();
 
         pedidoEncomiendaDos.reservar();
-        pedidoEncomiendaDos.asignarRepartidor();
+
         pedidoEncomiendaDos.cancelar();
 
         pedidoEncomiendaTres.reservar();
-        pedidoEncomiendaTres.asignarRepartidor(repartidorDos.getNombreRepartidor());
+
         pedidoEncomiendaTres.despachar();
 
         // Pedido express
         pedidoExpress.reservar();
-        pedidoExpress.asignarRepartidor(repartidorTres.getNombreRepartidor());
+
         pedidoExpress.despachar();
 
         pedidoExpressDos.reservar();
-        pedidoExpressDos.asignarRepartidor();
+
         pedidoExpressDos.cancelar();
 
         pedidoExpressTres.reservar();
-        pedidoExpressTres.asignarRepartidor(repartidorTres.getNombreRepartidor());
+
         pedidoExpressTres.despachar();
 
         // Ver historial
@@ -82,14 +81,14 @@ public class Main {
         pedidoExpressDos.verHistorial();
         pedidoExpressTres.verHistorial();
 
-        repartidorUno.agregarPedido(pedidoComida);
-        repartidorUno.agregarPedido(pedidoComidaTres);
+        zonaDeCarga.agregarPedido(pedidoComida);
+        zonaDeCarga.agregarPedido(pedidoComidaTres);
 
-        repartidorDos.agregarPedido(pedidoEncomienda);
-        repartidorDos.agregarPedido(pedidoEncomiendaTres);
+        zonaDeCarga.agregarPedido(pedidoEncomienda);
+        zonaDeCarga.agregarPedido(pedidoEncomiendaTres);
 
-        repartidorTres.agregarPedido(pedidoExpress);
-        repartidorTres.agregarPedido(pedidoExpressTres);
+        zonaDeCarga.agregarPedido(pedidoExpress);
+        zonaDeCarga.agregarPedido(pedidoExpressTres);
 
         executor.execute(repartidorUno);
         executor.execute(repartidorDos);

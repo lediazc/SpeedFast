@@ -2,12 +2,14 @@ package model;
 
 import java.util.ArrayList;
 
-public abstract class Pedido implements Rastreable {
+public abstract class Pedido implements Rastreable, Comparable<Pedido> {
 
     private int idPedido;
     private String direccionEntrega;
     private double distanciaKm;
     private String repartidorAsignado;
+    private EstadoPedido estado;
+    private PrioridadPedido prioridad;
 
     private ArrayList<String> historial = new ArrayList<>();
 
@@ -17,11 +19,12 @@ public abstract class Pedido implements Rastreable {
      * @param direccionEntrega Ubicación de entrega de la solicitud.
      * @param distanciaKm distancia de entrega.
      */
-    public Pedido(int idPedido, String direccionEntrega, double distanciaKm){
+    public Pedido(int idPedido, String direccionEntrega, double distanciaKm, EstadoPedido estado){
 
         setIdPedido(idPedido);
         setDireccionEntrega(direccionEntrega);
         setDistanciaKm(distanciaKm);
+        setEstado(estado);
     }
 
     //Getters ----------------------------
@@ -55,8 +58,26 @@ public abstract class Pedido implements Rastreable {
         return distanciaKm;
     }
 
+    /**
+     * Obtiene el repartidor asignado al pedido.
+     *
+     * @return repartidorAsignado.
+     */
     public String getRepartidorAsignado() {
         return repartidorAsignado;
+    }
+
+    /**
+     * Obtiene el estado del pedido.
+     *
+     * @return estado.
+     */
+    public EstadoPedido getEstado() {
+        return estado;
+    }
+
+    public PrioridadPedido getPrioridad() {
+        return prioridad;
     }
 
     //Setters ----------------------------
@@ -93,6 +114,21 @@ public abstract class Pedido implements Rastreable {
         this.repartidorAsignado = repartidorAsignado;
     }
 
+    public void setEstado(EstadoPedido estado){
+        this.estado = estado;
+    }
+
+    public void setPrioridad(PrioridadPedido prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    // Métodos ----------------------------
+
+    @Override
+    public int compareTo(Pedido otroPedido) {
+        return this.getPrioridad().compareTo(otroPedido.getPrioridad());
+    }
+
     protected void agregarAlHistorial(String registro) {
         historial.add(registro);
     }
@@ -101,7 +137,6 @@ public abstract class Pedido implements Rastreable {
         return historial;
     }
 
-    // Métodos ----------------------------
 
     protected abstract String getTituloHistorial();
 

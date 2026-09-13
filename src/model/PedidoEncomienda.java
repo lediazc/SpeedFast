@@ -10,7 +10,8 @@ public class PedidoEncomienda extends Pedido implements Reservable, Despachable,
      * @param distanciaKm       tipo de solicitud.
      */
     public PedidoEncomienda(int idPedido, String direccionEntrega, double distanciaKm) {
-        super(idPedido, direccionEntrega, distanciaKm);
+        super(idPedido, direccionEntrega, distanciaKm, EstadoPedido.PENDIENTE);
+        setPrioridad(PrioridadPedido.MEDIA);
 
     }
 
