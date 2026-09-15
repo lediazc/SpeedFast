@@ -4,6 +4,7 @@ import model.*;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
@@ -29,58 +30,6 @@ public class Main {
         Repartidor repartidorDos = new Repartidor("Luis", zonaDeCarga);
         Repartidor repartidorTres = new Repartidor("Diego", zonaDeCarga);
 
-        // Pedido de comida
-        pedidoComida.reservar();
-
-        pedidoComida.despachar();
-
-        pedidoComidaDos.reservar();
-
-        pedidoComidaDos.cancelar();
-
-        pedidoComidaTres.reservar();
-
-        pedidoComidaTres.despachar();
-
-        // Pedido de encomienda
-        pedidoEncomienda.reservar();
-
-        pedidoEncomienda.despachar();
-
-        pedidoEncomiendaDos.reservar();
-
-        pedidoEncomiendaDos.cancelar();
-
-        pedidoEncomiendaTres.reservar();
-
-        pedidoEncomiendaTres.despachar();
-
-        // Pedido express
-        pedidoExpress.reservar();
-
-        pedidoExpress.despachar();
-
-        pedidoExpressDos.reservar();
-
-        pedidoExpressDos.cancelar();
-
-        pedidoExpressTres.reservar();
-
-        pedidoExpressTres.despachar();
-
-        // Ver historial
-        pedidoComida.verHistorial();
-        pedidoComidaDos.verHistorial();
-        pedidoComidaTres.verHistorial();
-
-        pedidoEncomienda.verHistorial();
-        pedidoEncomiendaDos.verHistorial();
-        pedidoEncomiendaTres.verHistorial();
-
-        pedidoExpress.verHistorial();
-        pedidoExpressDos.verHistorial();
-        pedidoExpressTres.verHistorial();
-
         zonaDeCarga.agregarPedido(pedidoComida);
         zonaDeCarga.agregarPedido(pedidoComidaTres);
 
@@ -93,7 +42,18 @@ public class Main {
         executor.execute(repartidorUno);
         executor.execute(repartidorDos);
         executor.execute(repartidorTres);
+        zonaDeCarga.cerrarZona();
+
 
         executor.shutdown();
+
+        try {
+            if (executor.awaitTermination(1, TimeUnit.MINUTES)) {
+                System.out.println("[Zona de carga vacía]");
+                System.out.println("Todos los pedidos han sido entregados correctamente");
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

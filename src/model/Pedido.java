@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-
-public abstract class Pedido implements Rastreable, Comparable<Pedido> {
+public abstract class Pedido implements Comparable<Pedido> {
 
     private int idPedido;
     private String direccionEntrega;
@@ -11,7 +9,6 @@ public abstract class Pedido implements Rastreable, Comparable<Pedido> {
     private EstadoPedido estado;
     private PrioridadPedido prioridad;
 
-    private ArrayList<String> historial = new ArrayList<>();
 
     /**
      * Constructor que permite crear un Pedido con todos sus datos.
@@ -49,9 +46,9 @@ public abstract class Pedido implements Rastreable, Comparable<Pedido> {
     }
 
     /**
-     * Obtiene el tipo de pedido.
+     * Obtiene la distancia de entrega del pedido.
      *
-     * @return tipoPedido.
+     * @return distancia en kilómetros.
      */
     public double getDistanciaKm() {
 
@@ -103,7 +100,9 @@ public abstract class Pedido implements Rastreable, Comparable<Pedido> {
     }
 
     /**
-     * Configura tipo de entrega.
+     * Configura la distancia de entrega del pedido.
+     *
+     * @param distanciaKm distancia en kilómetros.
      */
     public void setDistanciaKm(double distanciaKm) {
 
@@ -129,36 +128,12 @@ public abstract class Pedido implements Rastreable, Comparable<Pedido> {
         return this.getPrioridad().compareTo(otroPedido.getPrioridad());
     }
 
-    protected void agregarAlHistorial(String registro) {
-        historial.add(registro);
-    }
-
-    protected ArrayList<String> getHistorial() {
-        return historial;
-    }
-
-
-    protected abstract String getTituloHistorial();
-
-    @Override
-    public void verHistorial() {
-
-        System.out.println("------------- ");
-        System.out.println(getTituloHistorial());
-        for (String registro : getHistorial()) {
-
-            System.out.println("- " + registro);
-        }
-    }
-
     public String mostrarResumen() {
         return
                 "Número de orden: " + idPedido + "\n"
-                + "Dirección: " + direccionEntrega + "\n"
-                + "Distancia: " + distanciaKm + " km.";
+                        + "Dirección: " + direccionEntrega + "\n"
+                        + "Distancia: " + distanciaKm + " km.";
     }
-
-    protected abstract int calcularTiempoEntrega(double distanciaKm);
 
     public String asignarRepartidor(){
         return "Asignando repartidor genérico..." + "\n" ;

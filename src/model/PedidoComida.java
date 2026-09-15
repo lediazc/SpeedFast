@@ -1,6 +1,6 @@
 package model;
 
-public class PedidoComida extends Pedido implements Reservable, Despachable, Cancelable{
+public class PedidoComida extends Pedido {
 
     /**
      * Constructor que permite crear un Pedido con todos sus datos.
@@ -16,28 +16,7 @@ public class PedidoComida extends Pedido implements Reservable, Despachable, Can
     }
 
     // Métodos ----------------------------
-    @Override
-    public void reservar() {
-        agregarAlHistorial("Pedido de comida reservado correctamente."+ "\n" +
-                "→ En breve se le asignará un repartidor"
-        );
 
-    }
-
-    @Override
-    public void despachar() {
-        //System.out.println("Pedido de comida despachado correctamente." + "\n" );
-
-        agregarAlHistorial("PedidoComida #" + getIdPedido() + " - despachado por " + getRepartidorAsignado());
-
-    }
-
-    @Override
-    public void cancelar() {
-        agregarAlHistorial("Cancelando Pedido Comida #" + getIdPedido() + "..." + "\n" +
-                        "→ Pedido cancelado exitosamente."
-        );
-    }
 
     @Override
     protected int calcularTiempoEntrega(double distanciaKm) {
@@ -45,11 +24,6 @@ public class PedidoComida extends Pedido implements Reservable, Despachable, Can
         double tarifaDinámica = 2 * distanciaKm;
 
         return (int) Math.round(tarifaEstandar + tarifaDinámica);
-    }
-
-    @Override
-    protected String getTituloHistorial() {
-        return "Historial Pedido Comida #" + getIdPedido() + ":";
     }
 
     @Override

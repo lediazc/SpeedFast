@@ -1,21 +1,21 @@
 package model;
 
 import java.util.concurrent.*;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class ZonaDeCarga {
     private final int capacidadMaxima = 10;
     private final BlockingQueue<Pedido> colaPedidos = new PriorityBlockingQueue<>();
+    private boolean cerrada = false;
 
 
     public ZonaDeCarga(){
+        System.out.println("[Zona de carga inicializada]");
 
     }
     /**
-     * Agrega un pedido en estado EN_REPARTO a la zona de carga
+     * Agrega un pedido en estado PENDIENTE a la zona de carga
      * Si no existen pedidos, el hilo queda esperando
      * @param p Es un pedido
-     * @throws InterruptedException frente a interrupción
      */
     public synchronized void agregarPedido(Pedido p) {
 
@@ -25,6 +25,7 @@ public class ZonaDeCarga {
 
         p.setEstado(EstadoPedido.PENDIENTE);
         colaPedidos.add(p);
+        System.out.println("Pedido #" + p.getIdPedido()  + " agregado. Destino: " + p.getDireccionEntrega());
         notifyAll();
     }
 
@@ -35,12 +36,27 @@ public class ZonaDeCarga {
      * @throws InterruptedException frente a interrupción
      */
     public synchronized Pedido retirarPedido() throws InterruptedException{
-        while(colaPedidos.isEmpty()) {
+
+        while(colaPedidos.isEmpty() && !cerrada) {
             System.out.println("No hay pedido en la zona de carga ...");
             wait();
         }
 
+        if (colaPedidos.isEmpty() && cerrada) {
+            return null;
+
+
+        }
         return colaPedidos.poll();
+    }
+
+    /**
+     * Cierra la zona de carga.
+     * Usa NotifyAll para notificar a los hilos que se encuentren esperando.
+     */
+    public synchronized void cerrarZona() {
+        cerrada = true;
+        notifyAll();
     }
 
 

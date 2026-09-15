@@ -1,6 +1,6 @@
 package model;
 
-public class PedidoExpress extends Pedido implements Reservable, Despachable, Cancelable{
+public class PedidoExpress extends Pedido {
 
     /**
      * Constructor que permite crear un Pedido con todos sus datos.
@@ -17,37 +17,6 @@ public class PedidoExpress extends Pedido implements Reservable, Despachable, Ca
 
     // Métodos ----------------------------
 
-    /**
-     * Reserva el pedido Express agregando información al historial
-     */
-    @Override
-    public void reservar() {
-        agregarAlHistorial("Pedido express reservado correctamente."+ "\n" +
-                "→ Tu pedido tiene prioridad para localizar repartidor"
-        );
-
-    }
-
-    /**
-     * Despacha el pedido Express agregando información al historial
-     */
-    @Override
-    public void despachar() {
-        //System.out.println("Pedido express despachado con prioridad." + "\n" );
-
-        agregarAlHistorial("PedidoExpress #" + getIdPedido() + " - despachado por " + getRepartidorAsignado());
-
-    }
-
-    /**
-     * Cancela el pedido Express agregando información al historial
-     */
-    @Override
-    public void cancelar() {
-        agregarAlHistorial("Cancelando Pedido Express #" + getIdPedido() + "..." + "\n" +
-                "→ Pedido cancelado exitosamente."
-        );
-    }
 
     /**
      * Calcula el tiempo de entrega sgún la distancia del pedido.
@@ -67,17 +36,6 @@ public class PedidoExpress extends Pedido implements Reservable, Despachable, Ca
 
         }
         return (int) Math.round(tarifaEstandar + tarifaDinámica);
-    }
-
-
-    /**
-     * Sobreescribe metodo heredado para configurarlo a un historial de pedido express
-     *
-     * @return título del historial del pedido express
-     */
-    @Override
-    protected String getTituloHistorial() {
-        return "Historial de pedidos express #" + getIdPedido() + ":";
     }
 
     /**
