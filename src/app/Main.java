@@ -44,6 +44,7 @@ public class Main {
             if (executor.awaitTermination(1, TimeUnit.MINUTES)) {
                 System.out.println("\n" + "..." + "\n");
                 System.out.println("[Zona de carga vacía]");
+                System.out.println("\n" + "Todos los pedidos han sido entregados correctamente");
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
