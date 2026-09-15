@@ -42,6 +42,7 @@ public class Main {
 
         try {
             if (executor.awaitTermination(1, TimeUnit.MINUTES)) {
+                System.out.println("\n" + "..." + "\n");
                 System.out.println("[Zona de carga vacía]");
             }
         } catch (InterruptedException e) {

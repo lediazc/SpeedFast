@@ -9,7 +9,7 @@ public class ZonaDeCarga {
 
 
     public ZonaDeCarga(){
-        System.out.println("[Zona de carga inicializada]");
+        System.out.println("[Zona de carga inicializada]" + "\n");
 
     }
     /**

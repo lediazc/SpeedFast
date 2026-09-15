@@ -42,7 +42,6 @@ public class Repartidor implements Runnable{
 
                 pedido.setEstado(EstadoPedido.ENTREGADO);
                 System.out.println("[Repartidor - " + nombreRepartidor + "] Estado: " + pedido.getEstado());
-                System.out.println("[Repartidor - " + nombreRepartidor + "] Pedido #" + pedido.getIdPedido() + " entregado.");
 
             } catch(InterruptedException e){
                 System.out.println("La entrega fue interrumpida.");
