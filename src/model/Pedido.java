@@ -12,7 +12,7 @@ public abstract class Pedido implements Comparable<Pedido> {
 
     /**
      * Constructor que permite crear un Pedido con todos sus datos.
-     * @param idPedido Número para identidicar la solicitud.
+     * @param idPedido Número para identificar la solicitud.
      * @param direccionEntrega Ubicación de entrega de la solicitud.
      * @param distanciaKm distancia de entrega.
      */
@@ -128,18 +128,21 @@ public abstract class Pedido implements Comparable<Pedido> {
         return this.getPrioridad().compareTo(otroPedido.getPrioridad());
     }
 
-    public String mostrarResumen() {
+
+    public String asignarRepartidor(){
+        return "Asignando repartidor genérico..." + "\n" ;
+    }
+    public String asignarRepartidor(String nombreRepartidor){
+        return "Pedido asignado a " + nombreRepartidor + "\n";
+    }
+
+    @Override
+    public String toString() {
         return
                 "Número de orden: " + idPedido + "\n"
                         + "Dirección: " + direccionEntrega + "\n"
                         + "Distancia: " + distanciaKm + " km.";
     }
 
-    public String asignarRepartidor(){
-        return "Asignando repartidor genérico..." + "\n" ;
-    }
-    public String asignarRepartidor(String nombreRepartidor){
-        return "Pedido asignado a " + nombreRepartidor + "\n" ;
-    }
 
 }

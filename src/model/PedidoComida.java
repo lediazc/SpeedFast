@@ -16,16 +16,6 @@ public class PedidoComida extends Pedido {
     }
 
     // Métodos ----------------------------
-
-
-    @Override
-    protected int calcularTiempoEntrega(double distanciaKm) {
-        int tarifaEstandar = 15;
-        double tarifaDinámica = 2 * distanciaKm;
-
-        return (int) Math.round(tarifaEstandar + tarifaDinámica);
-    }
-
     @Override
     public String asignarRepartidor() {
         return asignarRepartidor("Repartidor Anónimo");
@@ -37,11 +27,10 @@ public class PedidoComida extends Pedido {
         setRepartidorAsignado(nombreRepartidor);
         return
                 "[Pedido Comida]"                                                                           + "\n" +
-                    mostrarResumen()                                                                        + "\n" +
+                        toString()                                                                          + "\n" +
                 "Asignando repartidor..."                                                                   + "\n" +
                 "→ Verificando mochila térmica... OK"                                                       + "\n" +
-                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
-                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm()) + " minutos"     + "\n" ;
+                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" ;
     }
 
 }

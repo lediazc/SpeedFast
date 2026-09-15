@@ -17,15 +17,6 @@ public class PedidoEncomienda extends Pedido {
 
     // Métodos ----------------------------
 
-
-    @Override
-    protected int calcularTiempoEntrega(double distanciaKm){
-        int tarifaEstandar = 20;
-        double tarifaDinámica = 1.5 * distanciaKm;
-
-        return (int) Math.round(tarifaEstandar + tarifaDinámica);
-    }
-
     @Override
     public String asignarRepartidor() {
         return asignarRepartidor("Repartidor Anónimo");
@@ -35,10 +26,9 @@ public class PedidoEncomienda extends Pedido {
         setRepartidorAsignado(nombreRepartidor);
         return
                 "[Pedido Encomienda]"                                                                       + "\n" +
-                    mostrarResumen()                                                                        + "\n" +
+                        toString()                                                                          + "\n" +
                 "Asignando repartidor..."                                                                   + "\n" +
                 "→ Validando peso y embalaje... OK"                                                         + "\n" +
-                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
-                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm()) + " minutos"     + "\n" ;
+                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" ;
     }
 }

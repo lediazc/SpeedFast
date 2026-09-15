@@ -5,7 +5,7 @@ public class PedidoExpress extends Pedido {
     /**
      * Constructor que permite crear un Pedido con todos sus datos.
      *
-     * @param idPedido         Número para identidicar la solicitud.
+     * @param idPedido         Número para identificar la solicitud.
      * @param direccionEntrega Ubicación de entrega de la solicitud.
      * @param distanciaKm       tipo de solicitud.
      */
@@ -17,26 +17,6 @@ public class PedidoExpress extends Pedido {
 
     // Métodos ----------------------------
 
-
-    /**
-     * Calcula el tiempo de entrega sgún la distancia del pedido.
-     * Presenta condiional para pedidos por sobre los 5 km
-     *
-     * @param distanciaKm distancia del pedido en kilómetros
-     * @return tiempo estimado de entrega en minutos
-     */
-    @Override
-    protected int calcularTiempoEntrega(double distanciaKm){
-
-        double tarifaDinámica = 0;
-        int tarifaEstandar = 10;
-
-        if(distanciaKm > 5) {
-            tarifaDinámica = 5;
-
-        }
-        return (int) Math.round(tarifaEstandar + tarifaDinámica);
-    }
 
     /**
      * Asiigna repartidor anónimo a un pedido express cuando no se especifica nombre de repartidor
@@ -60,11 +40,10 @@ public class PedidoExpress extends Pedido {
         setRepartidorAsignado(nombreRepartidor);
         return
                 "[Pedido Express]"                                                                          + "\n" +
-                    mostrarResumen()                                                                        + "\n" +
+                    toString()                                                                              + "\n" +
                 "Asignando repartidor..."                                                                   + "\n" +
                 "→ Repartidor más cercano con disponibilidad inmediata encontrado."                         + "\n" +
-                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" +
-                "→ Tiempo estimado de entrega: " + calcularTiempoEntrega(getDistanciaKm())  + " minutos"    + "\n" ;
+                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" ;
 
     }
 }
