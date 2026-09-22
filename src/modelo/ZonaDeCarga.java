@@ -1,9 +1,9 @@
-package model;
+package modelo;
 
 import java.util.concurrent.*;
 
 public class ZonaDeCarga {
-    private final int capacidadMaxima = 10;
+    private final int capacidadMaxima = 100;
     private final BlockingQueue<Pedido> colaPedidos = new PriorityBlockingQueue<>();
     private boolean cerrada = false;
 

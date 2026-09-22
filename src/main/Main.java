@@ -1,15 +1,13 @@
-package app;
+package main;
 
-import model.*;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import vista.VentanaPrincipal;
 
 public class Main {
 
     public static void main(String[] args) {
+        new VentanaPrincipal();
 
+        /*
         ZonaDeCarga zonaDeCarga = new ZonaDeCarga();
         ExecutorService executor = Executors.newFixedThreadPool(3);
         PedidoComida pedidoComida = new PedidoComida(101, "Av. Providencia 1234", 12.0);
@@ -48,6 +46,6 @@ public class Main {
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-        }
+        }*/
     }
 }
