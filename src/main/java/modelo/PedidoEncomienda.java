@@ -3,7 +3,7 @@ package modelo;
 public class PedidoEncomienda extends Pedido {
 
     /**
-     * Constructor que permite crear un Pedido con todos sus datos.
+     * Constructor que permite crear un modelo.Pedido con todos sus datos.
      *
      * @param idPedido         Número para identidicar la solicitud.
      * @param direccionEntrega Ubicación de entrega de la solicitud.
@@ -19,16 +19,16 @@ public class PedidoEncomienda extends Pedido {
 
     @Override
     public String asignarRepartidor() {
-        return asignarRepartidor("Repartidor Anónimo");
+        return asignarRepartidor("modelo.Repartidor Anónimo");
     }
     @Override
     public String asignarRepartidor(String nombreRepartidor){
         setRepartidorAsignado(nombreRepartidor);
         return
-                "[Pedido Encomienda]"                                                                       + "\n" +
+                "[modelo.Pedido Encomienda]"                                                                       + "\n" +
                         toString()                                                                          + "\n" +
                 "Asignando repartidor..."                                                                   + "\n" +
                 "→ Validando peso y embalaje... OK"                                                         + "\n" +
-                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" ;
+                "→ modelo.Pedido asignado a " + nombreRepartidor                                                   + "\n" ;
     }
 }

@@ -25,14 +25,14 @@ public class ZonaDeCarga {
 
         p.setEstado(EstadoPedido.PENDIENTE);
         colaPedidos.add(p);
-        System.out.println("Pedido #" + p.getIdPedido()  + " agregado. Destino: " + p.getDireccionEntrega());
+        System.out.println("modelo.Pedido #" + p.getIdPedido()  + " agregado. Destino: " + p.getDireccionEntrega());
         notifyAll();
     }
 
     /**
      *Retira el siguiente pedido disponible en la zona de carga
      * Si no existen pedidos, el hilo queda esperando
-     * @return Pedido retirado de la zona de carga
+     * @return modelo.Pedido retirado de la zona de carga
      * @throws InterruptedException frente a interrupción
      */
     public synchronized Pedido retirarPedido() throws InterruptedException{

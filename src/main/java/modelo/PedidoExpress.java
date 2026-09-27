@@ -3,7 +3,7 @@ package modelo;
 public class PedidoExpress extends Pedido {
 
     /**
-     * Constructor que permite crear un Pedido con todos sus datos.
+     * Constructor que permite crear un modelo.Pedido con todos sus datos.
      *
      * @param idPedido         Número para identificar la solicitud.
      * @param direccionEntrega Ubicación de entrega de la solicitud.
@@ -22,11 +22,11 @@ public class PedidoExpress extends Pedido {
      * Asiigna repartidor anónimo a un pedido express cuando no se especifica nombre de repartidor
      * Utiliza la versión sobrecargada de asignarRepartidor(String)
      *
-     * @return mensaje de confirmación de asignación de repartidor con Repartidor anónimo
+     * @return mensaje de confirmación de asignación de repartidor con modelo.Repartidor anónimo
      */
     @Override
     public String asignarRepartidor() {
-        return asignarRepartidor("Repartidor Anónimo");
+        return asignarRepartidor("modelo.Repartidor Anónimo");
     }
 
     /**
@@ -39,11 +39,11 @@ public class PedidoExpress extends Pedido {
     public String asignarRepartidor(String nombreRepartidor){
         setRepartidorAsignado(nombreRepartidor);
         return
-                "[Pedido Express]"                                                                          + "\n" +
+                "[modelo.Pedido Express]"                                                                          + "\n" +
                     toString()                                                                              + "\n" +
                 "Asignando repartidor..."                                                                   + "\n" +
-                "→ Repartidor más cercano con disponibilidad inmediata encontrado."                         + "\n" +
-                "→ Pedido asignado a " + nombreRepartidor                                                   + "\n" ;
+                "→ modelo.Repartidor más cercano con disponibilidad inmediata encontrado."                         + "\n" +
+                "→ modelo.Pedido asignado a " + nombreRepartidor                                                   + "\n" ;
 
     }
 }

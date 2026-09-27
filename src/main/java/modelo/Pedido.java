@@ -11,7 +11,7 @@ public abstract class Pedido implements Comparable<Pedido> {
 
 
     /**
-     * Constructor que permite crear un Pedido con todos sus datos.
+     * Constructor que permite crear un modelo.Pedido con todos sus datos.
      * @param idPedido Número para identificar la solicitud.
      * @param direccionEntrega Ubicación de entrega de la solicitud.
      * @param distanciaKm distancia de entrega.
@@ -133,7 +133,7 @@ public abstract class Pedido implements Comparable<Pedido> {
         return "Asignando repartidor genérico..." + "\n" ;
     }
     public String asignarRepartidor(String nombreRepartidor){
-        return "Pedido asignado a " + nombreRepartidor + "\n";
+        return "modelo.Pedido asignado a " + nombreRepartidor + "\n";
     }
 
     @Override

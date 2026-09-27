@@ -115,7 +115,7 @@ public class VentanaRegistroPedido extends JFrame {
         idRegistroJTF.setText(String.valueOf(id));
         distanciaJTF.setText(String.valueOf(distancia));
 
-        JOptionPane.showMessageDialog(this,"Pedido registrado correctamente.");
+        JOptionPane.showMessageDialog(this,"modelo.Pedido registrado correctamente.");
         dispose();
 
         direccionJTF.setText("");
