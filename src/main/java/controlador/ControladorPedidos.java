@@ -6,6 +6,9 @@ import java.util.List;
 import modelo.EstadoPedido;
 import modelo.Repartidor;
 import modelo.ZonaDeCarga;
+import modelo.PedidoComida;
+import modelo.PedidoEncomienda;
+import modelo.PedidoExpress;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,10 +18,12 @@ public class ControladorPedidos {
 
     private final List<Pedido> listaPedidos;
     private final PedidoDAO pedidoDAO;
+    private final RepartidorDAO repartidorDAO;
 
     public ControladorPedidos() {
         listaPedidos = new ArrayList<>();
         pedidoDAO = new PedidoDAO();
+        repartidorDAO = new RepartidorDAO();
     }
 
     public boolean agregarPedido(Pedido pedido) {
@@ -68,29 +73,52 @@ public class ControladorPedidos {
 
         boolean existenPendientes = false;
 
-        for (Pedido pedido : listaPedidos) {
+        for (Object[] fila : pedidoDAO.listarPendientes()) {
 
-            if (pedido.getEstado() == EstadoPedido.PENDIENTE) {
-                zonaDeCarga.agregarPedido(pedido);
-                existenPendientes = true;
+            int id = (int) fila[0];
+            String direccion = (String) fila[1];
+            String tipo = (String) fila[2];
+
+            Pedido pedido;
+
+            switch (tipo) {
+
+                case "COMIDA":
+                    pedido = new PedidoComida(id, direccion, 0);
+                    break;
+
+                case "ENCOMIENDA":
+                    pedido = new PedidoEncomienda(id, direccion, 0);
+                    break;
+
+                case "EXPRESS":
+                    pedido = new PedidoExpress(id, direccion, 0);
+                    break;
+
+                default:
+                    continue;
             }
+
+            zonaDeCarga.agregarPedido(pedido);
+            existenPendientes = true;
         }
 
         if (!existenPendientes) {
             return false;
         }
 
-        ExecutorService executor = Executors.newFixedThreadPool(3);
+        List<Repartidor> repartidores = repartidorDAO.listarTodos(zonaDeCarga);
 
-        Repartidor repartidorUno =  new Repartidor("Camila", zonaDeCarga);
+        if (repartidores.isEmpty()) {
+            return false;
+        }
 
-        Repartidor repartidorDos =   new Repartidor("Luis", zonaDeCarga);
+        ExecutorService executor =
+                Executors.newFixedThreadPool(repartidores.size());
 
-        Repartidor repartidorTres =  new Repartidor("Diego", zonaDeCarga);
-
-        executor.execute(repartidorUno);
-        executor.execute(repartidorDos);
-        executor.execute(repartidorTres);
+        for (Repartidor repartidor : repartidores) {
+            executor.execute(repartidor);
+        }
 
         zonaDeCarga.cerrarZona();
 

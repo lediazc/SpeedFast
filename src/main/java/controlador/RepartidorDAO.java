@@ -17,26 +17,27 @@ public class RepartidorDAO {
 
     }
 
-    public List<Repartidor> listarTodos(){
+    public List<Repartidor> listarTodos(ZonaDeCarga zonaDeCarga){
 
         List<Repartidor> repartidores = new ArrayList<>();
 
         String sql = "SELECT * FROM repartidor";
 
-        ZonaDeCarga zonaDeCarga = new ZonaDeCarga();
 
         try(Connection conn = ConexionBD.obtenerConexion();
             PreparedStatement stmt = conn.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery()) {
 
-                while(rs.next()){
-                    String nombre = rs.getString("nombre");
+            while (rs.next()) {
 
-                    Repartidor repartidor = new Repartidor(nombre, zonaDeCarga);
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
 
-                    repartidores.add(repartidor);
+                Repartidor repartidor =
+                        new Repartidor(id, nombre, zonaDeCarga);
 
-                }
+                repartidores.add(repartidor);
+            }
         } catch(SQLException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error al obtener Repartidores de la BBDD");
@@ -44,6 +45,25 @@ public class RepartidorDAO {
 
         return repartidores;
 
+    }
+
+    public boolean guardar(String nombre) {
+
+        String sql = "INSERT INTO repartidor (nombre) VALUES (?)";
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nombre);
+
+            stmt.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

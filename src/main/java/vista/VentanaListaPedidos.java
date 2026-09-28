@@ -1,18 +1,20 @@
 package vista;
 
 import controlador.ControladorPedidos;
-import modelo.Pedido;
+import controlador.PedidoDAO;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
+
 
 public class VentanaListaPedidos extends JFrame  {
 
 
-    private final ControladorPedidos controladorPedidos;
+    //private final ControladorPedidos controladorPedidos;
+    private final PedidoDAO pedidoDAO = new PedidoDAO();
 
     private final DefaultTableModel modeloTabla =
             new DefaultTableModel(
-                    new Object[]{"ID", "Dirección", "Distancia", "Tipo", "Estado"},
+                    new Object[]{"ID", "Dirección", "Tipo", "Estado"},
                     0
             );
 
@@ -20,7 +22,7 @@ public class VentanaListaPedidos extends JFrame  {
 
     public VentanaListaPedidos(ControladorPedidos controladorPedidos) {
 
-        this.controladorPedidos = controladorPedidos;
+        //this.controladorPedidos = controladorPedidos;
 
         setSize(700, 500);
         setLocationRelativeTo(null);
@@ -42,15 +44,8 @@ public class VentanaListaPedidos extends JFrame  {
 
         modeloTabla.setRowCount(0);
 
-        for (Pedido pedido : controladorPedidos.getListaPedidos()) {
-
-            modeloTabla.addRow(new Object[]{
-                    pedido.getIdPedido(),
-                    pedido.getDireccionEntrega(),
-                    pedido.getDistanciaKm(),
-                    pedido.getClass().getSimpleName(),
-                    pedido.getEstado()
-            });
+        for (Object[] pedido : pedidoDAO.listarTodos()) {
+            modeloTabla.addRow(pedido);
         }
     }
 }
