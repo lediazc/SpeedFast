@@ -13,12 +13,12 @@ import java.util.concurrent.Executors;
 public class ControladorPedidos {
 
 
-
-
     private final List<Pedido> listaPedidos;
+    private final PedidoDAO pedidoDAO;
 
     public ControladorPedidos() {
         listaPedidos = new ArrayList<>();
+        pedidoDAO = new PedidoDAO();
     }
 
     public boolean agregarPedido(Pedido pedido) {
@@ -31,7 +31,14 @@ public class ControladorPedidos {
             return false;
         }
 
+        boolean guardado = pedidoDAO.guardar(pedido);
+
+        if (!guardado) {
+            return false;
+        }
+
         listaPedidos.add(pedido);
+
         return true;
     }
 

@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class VentanaPrincipal extends JFrame {
 
-    private final JButton registrarPedidoJB = new JButton("Registrar modelo.Pedido");
+    private final JButton registrarPedidoJB = new JButton("Registrar Pedido");
     private final JButton listarPedidosJB = new JButton("Listar Pedidos");
     private final JButton iniciarEntregaJB = new JButton("Iniciar Entrega");
 

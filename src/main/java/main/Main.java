@@ -5,17 +5,26 @@ import controlador.ConexionBD;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import controlador.PedidoDAO;
+import modelo.Pedido;
+import modelo.PedidoComida;
+import controlador.EntregaDAO;
+import modelo.Entrega;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import controlador.RepartidorDAO;
+import modelo.Repartidor;
+
+import java.util.List;
+
+
 public class Main {
 
     public static void main(String[] args) {
-        try (Connection conn = ConexionBD.obtenerConexion()) {
-            System.out.println("✅ Conexión exitosa a la base de datos.");
-        } catch (SQLException e) {
-            System.err.println("❌ Error al conectar con la base de datos:");
-            e.printStackTrace();
-        }
 
-        //new vista.VentanaPrincipal();
+        new VentanaPrincipal();
 
         /*
         modelo.ZonaDeCarga zonaDeCarga = new modelo.ZonaDeCarga();

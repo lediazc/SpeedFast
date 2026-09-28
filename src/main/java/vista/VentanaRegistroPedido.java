@@ -85,7 +85,7 @@ public class VentanaRegistroPedido extends JFrame {
             return;
         }
 
-        int id = controladorPedidos.generarNuevoId();
+        int id = 0;
         double distancia = calcularDistanciaSimulada();
 
         Pedido pedido;
@@ -108,14 +108,18 @@ public class VentanaRegistroPedido extends JFrame {
                 return;
         }
 
-        controladorPedidos.agregarPedido(pedido);
+        boolean guardado = controladorPedidos.agregarPedido(pedido);
 
+        if (!guardado) {
+            JOptionPane.showMessageDialog( this, "No se pudo registrar el pedido.","Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-
-        idRegistroJTF.setText(String.valueOf(id));
+        idRegistroJTF.setText(String.valueOf(pedido.getIdPedido()));
         distanciaJTF.setText(String.valueOf(distancia));
 
-        JOptionPane.showMessageDialog(this,"modelo.Pedido registrado correctamente.");
+        JOptionPane.showMessageDialog( this, "Pedido registrado correctamente.");
+
         dispose();
 
         direccionJTF.setText("");
