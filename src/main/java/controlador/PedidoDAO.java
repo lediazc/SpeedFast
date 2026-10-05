@@ -73,6 +73,46 @@ public class PedidoDAO {
 
     }
 
+    public boolean actualizar(int id, String direccion, String tipo, EstadoPedido estado){
+
+        String sql = "UPDATE pedido SET direccion =?, tipo =?, estado =? WHERE id =?";
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, direccion);
+            stmt.setString(2, tipo);
+            stmt.setString(3, estado.name());
+            stmt.setInt(4, id);
+
+            int filasAfctualizada = stmt.executeUpdate();
+
+            return filasAfctualizada > 0;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public boolean eliminar(int id){
+
+        String sql = "DELETE FROM pedido WHERE id =?";
+
+        try( Connection conn = ConexionBD.obtenerConexion();
+            PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setInt(1, id);
+
+            int filasEliminadas = stmt.executeUpdate();
+
+            return filasEliminadas > 0;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean actualizarEstado(int idPedido, EstadoPedido estado) {
 
         String sql = "UPDATE pedido SET estado = ? WHERE id = ?";

@@ -66,4 +66,68 @@ public class RepartidorDAO {
         }
     }
 
+    public boolean actualizar(int id, String nombre) {
+
+        String sql = "UPDATE repartidor SET nombre = ? WHERE id = ?";
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nombre);
+            stmt.setInt(2, id);
+
+            int filasActualizadas = stmt.executeUpdate();
+
+            return filasActualizadas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean eliminar(int id) {
+
+        String sql = "DELETE FROM repartidor WHERE id = ?";
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+
+            int filasEliminadas = stmt.executeUpdate();
+
+            return filasEliminadas > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Object[]> listarTodosTabla() {
+
+        List<Object[]> repartidores = new ArrayList<>();
+
+        String sql = "SELECT * FROM repartidor";
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                repartidores.add(new Object[]{
+                        rs.getInt("id"),
+                        rs.getString("nombre")
+                });
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return repartidores;
+    }
+
 }

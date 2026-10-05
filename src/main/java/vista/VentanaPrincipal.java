@@ -10,6 +10,8 @@ public class VentanaPrincipal extends JFrame {
     private final JButton listarPedidosJB = new JButton("Listar Pedidos");
     private final JButton iniciarEntregaJB = new JButton("Iniciar Entrega");
     private final JButton registrarRepartidorJB = new JButton("Registrar Repartidor");
+    private final JButton listarRepartidoresJB = new JButton("Listar Repartidores");
+    private final JButton listarEntregasJB = new JButton("Listar Entregas");
 
     private final ControladorPedidos controladorPedidos =  new ControladorPedidos();
     private VentanaListaPedidos ventanaListaPedidos;
@@ -26,11 +28,15 @@ public class VentanaPrincipal extends JFrame {
         panelPrincipal.add(listarPedidosJB);
         panelPrincipal.add(iniciarEntregaJB);
         panelPrincipal.add(registrarRepartidorJB);
+        panelPrincipal.add(listarRepartidoresJB);
+        panelPrincipal.add(listarEntregasJB);
 
         registrarPedidoJB.addActionListener(e -> abreVentanaRegistroPedido() );
         listarPedidosJB.addActionListener(e -> abreVentanaListaPedidos() );
         iniciarEntregaJB.addActionListener(e -> iniciarEntrega());
         registrarRepartidorJB.addActionListener(e -> registrarRepartidor());
+        listarRepartidoresJB.addActionListener(e -> abreVentanaListaRepartidores());
+        listarEntregasJB.addActionListener(e -> abreVentanaListaEntregas());
 
         add(panelPrincipal);
 
@@ -43,6 +49,14 @@ public class VentanaPrincipal extends JFrame {
 
     private void abreVentanaListaPedidos(){
         ventanaListaPedidos = new VentanaListaPedidos(controladorPedidos);
+    }
+
+    private void abreVentanaListaRepartidores() {
+        new VentanaListaRepartidores();
+    }
+
+    private void abreVentanaListaEntregas() {
+        new VentanaListaEntregas();
     }
 
     private void iniciarEntrega() {
@@ -79,7 +93,5 @@ public class VentanaPrincipal extends JFrame {
             JOptionPane.showMessageDialog(  this, "No se pudo registrar el repartidor.", "Error", JOptionPane.ERROR_MESSAGE );
         }
     }
-
-
 }
 
