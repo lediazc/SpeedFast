@@ -1,5 +1,6 @@
-package controlador;
+package dao;
 
+import controlador.ConexionBD;
 import modelo.Repartidor;
 import modelo.ZonaDeCarga;
 
@@ -47,6 +48,34 @@ public class RepartidorDAO {
 
     }
 
+
+    public List<Repartidor> listarTodos() {
+
+        List<Repartidor> repartidores = new ArrayList<>();
+
+        String sql = "SELECT * FROM repartidor";
+
+        try (Connection conn = ConexionBD.obtenerConexion();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+
+                Repartidor repartidor = new Repartidor(id, nombre, null);
+
+                repartidores.add(repartidor);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al listar los repartidores de la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return repartidores;
+    }
     public boolean guardar(String nombre) {
 
         String sql = "INSERT INTO repartidor (nombre) VALUES (?)";
@@ -108,30 +137,5 @@ public class RepartidorDAO {
         }
     }
 
-    public List<Object[]> listarTodosTabla() {
-
-        List<Object[]> repartidores = new ArrayList<>();
-
-        String sql = "SELECT * FROM repartidor";
-
-        try (Connection conn = ConexionBD.obtenerConexion();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-
-                repartidores.add(new Object[]{
-                        rs.getInt("id"),
-                        rs.getString("nombre")
-                });
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error al listar los repartidores de la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        return repartidores;
-    }
 
 }

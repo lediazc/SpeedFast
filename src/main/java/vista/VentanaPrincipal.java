@@ -2,7 +2,7 @@ package vista;
 
 import controlador.ControladorPedidos;
 import javax.swing.*;
-import controlador.RepartidorDAO;
+import dao.RepartidorDAO;
 
 public class VentanaPrincipal extends JFrame {
 

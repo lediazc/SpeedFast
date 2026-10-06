@@ -7,10 +7,19 @@ public class Entrega {
 
     private int idPedido;
     private int idRepartidor;
+    private int idEntrega;
     private LocalDate fecha;
     private LocalTime hora;
 
     public Entrega(int idPedido, int idRepartidor, LocalDate fecha, LocalTime hora) {
+        this.idPedido = idPedido;
+        this.idRepartidor = idRepartidor;
+        this.fecha = fecha;
+        this.hora = hora;
+    }
+
+    public Entrega(int idEntrega, int idPedido, int idRepartidor, LocalDate fecha, LocalTime hora) {
+        this.idEntrega = idEntrega;
         this.idPedido = idPedido;
         this.idRepartidor = idRepartidor;
         this.fecha = fecha;
@@ -31,5 +40,9 @@ public class Entrega {
 
     public LocalTime getHora() {
         return hora;
+    }
+
+    public int getIdEntrega() {
+        return idEntrega;
     }
 }

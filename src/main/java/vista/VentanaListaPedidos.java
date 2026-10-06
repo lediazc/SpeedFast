@@ -1,9 +1,9 @@
 package vista;
 
 import controlador.ControladorPedidos;
-import controlador.PedidoDAO;
+import dao.PedidoDAO;
 import modelo.EstadoPedido;
-
+import modelo.Pedido;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
 import java.awt.*;
@@ -172,8 +172,14 @@ public class VentanaListaPedidos extends JFrame  {
 
         modeloTabla.setRowCount(0);
 
-        for (Object[] pedido : pedidoDAO.listarTodos()) {
-            modeloTabla.addRow(pedido);
+        for (Pedido pedido : pedidoDAO.listarTodos()) {
+
+            modeloTabla.addRow(new Object[]{
+                    pedido.getIdPedido(),
+                    pedido.getDireccionEntrega(),
+                    pedido.getClass().getSimpleName().replace("Pedido", "").toUpperCase(),
+                    pedido.getEstado().name()
+            });
         }
     }
 }

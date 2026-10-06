@@ -1,14 +1,13 @@
 package controlador;
 
+import dao.PedidoDAO;
+import dao.RepartidorDAO;
 import modelo.Pedido;
 import java.util.ArrayList;
 import java.util.List;
-import modelo.EstadoPedido;
+
 import modelo.Repartidor;
 import modelo.ZonaDeCarga;
-import modelo.PedidoComida;
-import modelo.PedidoEncomienda;
-import modelo.PedidoExpress;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -73,31 +72,7 @@ public class ControladorPedidos {
 
         boolean existenPendientes = false;
 
-        for (Object[] fila : pedidoDAO.listarPendientes()) {
-
-            int id = (int) fila[0];
-            String direccion = (String) fila[1];
-            String tipo = (String) fila[2];
-
-            Pedido pedido;
-
-            switch (tipo) {
-
-                case "COMIDA":
-                    pedido = new PedidoComida(id, direccion, 0);
-                    break;
-
-                case "ENCOMIENDA":
-                    pedido = new PedidoEncomienda(id, direccion, 0);
-                    break;
-
-                case "EXPRESS":
-                    pedido = new PedidoExpress(id, direccion, 0);
-                    break;
-
-                default:
-                    continue;
-            }
+        for (Pedido pedido : pedidoDAO.listarPendientes()) {
 
             zonaDeCarga.agregarPedido(pedido);
             existenPendientes = true;

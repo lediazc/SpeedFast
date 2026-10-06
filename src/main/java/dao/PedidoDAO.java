@@ -1,5 +1,6 @@
-package controlador;
+package dao;
 
+import controlador.ConexionBD;
 import modelo.Pedido;
 
 import javax.swing.*;
@@ -10,15 +11,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.EstadoPedido;
+import modelo.PedidoComida;
+import modelo.PedidoEncomienda;
+import modelo.PedidoExpress;
 
 public class PedidoDAO {
 
     public PedidoDAO(){
 
     }
-    public List<Object[]> listarTodos() {
+    public List<Pedido> listarTodos() {
 
-        List<Object[]> pedidos = new ArrayList<>();
+        List<Pedido> pedidos = new ArrayList<>();
 
         String sql = "SELECT * FROM pedido";
 
@@ -28,12 +32,32 @@ public class PedidoDAO {
 
             while (rs.next()) {
 
-                pedidos.add(new Object[]{
-                        rs.getInt("id"),
-                        rs.getString("direccion"),
-                        rs.getString("tipo"),
-                        rs.getString("estado")
-                });
+                int id = rs.getInt("id");
+                String direccion = rs.getString("direccion");
+                String tipo = rs.getString("tipo");
+                EstadoPedido estado = EstadoPedido.valueOf(rs.getString("estado"));
+
+                Pedido pedido;
+
+                switch (tipo) {
+                    case "COMIDA":
+                        pedido = new PedidoComida(id, direccion, 0);
+                        break;
+
+                    case "ENCOMIENDA":
+                        pedido = new PedidoEncomienda(id, direccion, 0);
+                        break;
+
+                    case "EXPRESS":
+                        pedido = new PedidoExpress(id, direccion, 0);
+                        break;
+
+                    default:
+                        throw new IllegalArgumentException("Tipo de pedido desconocido: " + tipo);
+                }
+
+                pedido.setEstado(estado);
+                pedidos.add(pedido);
             }
 
         } catch (SQLException e) {
@@ -138,9 +162,9 @@ public class PedidoDAO {
         }
     }
 
-    public List<Object[]> listarPendientes() {
+    public List<Pedido> listarPendientes() {
 
-        List<Object[]> pedidos = new ArrayList<>();
+        List<Pedido> pedidos = new ArrayList<>();
 
         String sql = "SELECT * FROM pedido WHERE estado = 'PENDIENTE'";
 
@@ -150,12 +174,32 @@ public class PedidoDAO {
 
             while (rs.next()) {
 
-                pedidos.add(new Object[]{
-                        rs.getInt("id"),
-                        rs.getString("direccion"),
-                        rs.getString("tipo"),
-                        rs.getString("estado")
-                });
+                int id = rs.getInt("id");
+                String direccion = rs.getString("direccion");
+                String tipo = rs.getString("tipo");
+                EstadoPedido estado = EstadoPedido.valueOf(rs.getString("estado"));
+
+                Pedido pedido;
+
+                switch (tipo) {
+                    case "COMIDA":
+                        pedido = new PedidoComida(id, direccion, 0);
+                        break;
+
+                    case "ENCOMIENDA":
+                        pedido = new PedidoEncomienda(id, direccion, 0);
+                        break;
+
+                    case "EXPRESS":
+                        pedido = new PedidoExpress(id, direccion, 0);
+                        break;
+
+                    default:
+                        throw new IllegalArgumentException("Tipo de pedido desconocido: " + tipo);
+                }
+
+                pedido.setEstado(estado);
+                pedidos.add(pedido);
             }
 
         } catch (SQLException e) {

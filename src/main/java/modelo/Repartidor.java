@@ -1,7 +1,7 @@
 package modelo;
 
-import controlador.PedidoDAO;
-import controlador.EntregaDAO;
+import dao.PedidoDAO;
+import dao.EntregaDAO;
 import java.time.LocalDate;
 import java.time.LocalTime;
 

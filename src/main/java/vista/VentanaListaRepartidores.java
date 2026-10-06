@@ -1,7 +1,7 @@
 package vista;
 
-import controlador.RepartidorDAO;
-
+import dao.RepartidorDAO;
+import modelo.Repartidor;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -48,8 +48,12 @@ public class VentanaListaRepartidores extends JFrame {
 
         modeloTabla.setRowCount(0);
 
-        for (Object[] repartidor : repartidorDAO.listarTodosTabla()) {
-            modeloTabla.addRow(repartidor);
+        for (Repartidor repartidor : repartidorDAO.listarTodos()) {
+
+            modeloTabla.addRow(new Object[]{
+                    repartidor.getIdRepartidor(),
+                    repartidor.getNombreRepartidor()
+            });
         }
     }
 

@@ -1,5 +1,6 @@
-package controlador;
+package dao;
 
+import controlador.ConexionBD;
 import modelo.Entrega;
 
 import javax.swing.*;
@@ -21,7 +22,7 @@ public class EntregaDAO {
     public void guardar(Entrega entrega){
 
         String sql = "INSERT INTO entrega (id_pedido, id_repartidor, fecha, hora) VALUES (?, ?, ?, ?)";
-        try( Connection conn = ConexionBD.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql)){
+        try(Connection conn = ConexionBD.obtenerConexion(); PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, entrega.getIdPedido());
             stmt.setInt(2, entrega.getIdRepartidor());
             stmt.setDate(3, Date.valueOf(entrega.getFecha()));
@@ -36,9 +37,9 @@ public class EntregaDAO {
 
     }
 
-    public List<Object[]> listarTodos() {
+    public List<Entrega> listarTodos() {
 
-        List<Object[]> entregas = new ArrayList<>();
+        List<Entrega> entregas = new ArrayList<>();
 
         String sql = "SELECT * FROM entrega";
 
@@ -48,13 +49,15 @@ public class EntregaDAO {
 
             while (rs.next()) {
 
-                entregas.add(new Object[]{
+                Entrega entrega = new Entrega(
                         rs.getInt("id"),
                         rs.getInt("id_pedido"),
                         rs.getInt("id_repartidor"),
-                        rs.getDate("fecha"),
-                        rs.getTime("hora")
-                });
+                        rs.getDate("fecha").toLocalDate(),
+                        rs.getTime("hora").toLocalTime()
+                );
+
+                entregas.add(entrega);
             }
 
         } catch (SQLException e) {
