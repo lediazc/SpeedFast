@@ -13,13 +13,15 @@ public class VentanaPrincipal extends JFrame {
     private final JButton listarRepartidoresJB = new JButton("Listar Repartidores");
     private final JButton listarEntregasJB = new JButton("Listar Entregas");
 
+
+
     private final ControladorPedidos controladorPedidos =  new ControladorPedidos();
     private VentanaListaPedidos ventanaListaPedidos;
 
     public VentanaPrincipal(){
         JPanel panelPrincipal = new JPanel();
 
-        setSize(420, 100);
+        setSize(520, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setTitle("SpeedFast \uD83D\uDCE8 - Bienvenido a nuestro sistema de encomiendas");

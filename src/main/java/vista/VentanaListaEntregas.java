@@ -7,10 +7,14 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import controlador.PedidoDAO;
+import controlador.RepartidorDAO;
 
 public class VentanaListaEntregas extends JFrame {
 
     private final EntregaDAO entregaDAO = new EntregaDAO();
+    private final PedidoDAO pedidoDAO = new PedidoDAO();
+    private final RepartidorDAO repartidorDAO = new RepartidorDAO();
 
     private final DefaultTableModel modeloTabla =
             new DefaultTableModel(
@@ -25,6 +29,7 @@ public class VentanaListaEntregas extends JFrame {
 
     private final JTable tablaEntregas = new JTable(modeloTabla);
 
+    private final JButton registrarJB = new JButton("Registrar");
     private final JButton editarJB = new JButton("Editar");
     private final JButton eliminarJB = new JButton("Eliminar");
 
@@ -40,12 +45,15 @@ public class VentanaListaEntregas extends JFrame {
         JScrollPane scrollPane = new JScrollPane(tablaEntregas);
 
         JPanel panelBotones = new JPanel();
+
+        panelBotones.add(registrarJB);
         panelBotones.add(editarJB);
         panelBotones.add(eliminarJB);
 
         add(scrollPane, BorderLayout.CENTER);
         add(panelBotones, BorderLayout.SOUTH);
 
+        registrarJB.addActionListener(e -> registrarEntrega());
         editarJB.addActionListener(e -> editarEntrega());
         eliminarJB.addActionListener(e -> eliminarEntrega());
 
@@ -60,6 +68,97 @@ public class VentanaListaEntregas extends JFrame {
 
         for (Object[] entrega : entregaDAO.listarTodos()) {
             modeloTabla.addRow(entrega);
+        }
+    }
+
+    private void registrarEntrega() {
+
+        JComboBox<comboB> pedidoCB = new JComboBox<>();
+        JComboBox<comboB> repartidorCB = new JComboBox<>();
+
+        // Cargar pedidos desde la BD
+        for (Object[] pedido : pedidoDAO.listarTodos()) {
+
+            int idPedido = (int) pedido[0];
+            String direccion = pedido[1].toString();
+
+            pedidoCB.addItem(
+                    new comboB(
+                            idPedido,
+                            idPedido + " - " + direccion
+                    )
+            );
+        }
+
+        // Cargar repartidores desde la BD
+        for (Object[] repartidor : repartidorDAO.listarTodosTabla()) {
+
+            int idRepartidor = (int) repartidor[0];
+            String nombre = repartidor[1].toString();
+
+            repartidorCB.addItem(
+                    new comboB(
+                            idRepartidor,
+                            idRepartidor + " - " + nombre
+                    )
+            );
+        }
+
+        JTextField fechaTF = new JTextField(LocalDate.now().toString());
+        JTextField horaTF = new JTextField(LocalTime.now().withNano(0).toString());
+
+        JPanel panel = new JPanel(new GridLayout(0, 1));
+
+        panel.add(new JLabel("Pedido:"));
+        panel.add(pedidoCB);
+
+        panel.add(new JLabel("Repartidor:"));
+        panel.add(repartidorCB);
+
+        panel.add(new JLabel("Fecha (AAAA-MM-DD):"));
+        panel.add(fechaTF);
+
+        panel.add(new JLabel("Hora (HH:MM:SS):"));
+        panel.add(horaTF);
+
+        int opcion = JOptionPane.showConfirmDialog(this, panel, "Registrar entrega", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (opcion != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        comboB pedidoSeleccionado = (comboB) pedidoCB.getSelectedItem();
+        comboB repartidorSeleccionado = (comboB) repartidorCB.getSelectedItem();
+
+        if (pedidoSeleccionado == null || repartidorSeleccionado == null) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar un pedido y un repartidor.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int idPedido = pedidoSeleccionado.getId();
+        int idRepartidor = repartidorSeleccionado.getId();
+
+        if (fechaTF.getText().trim().isEmpty() || horaTF.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "La fecha y la hora son obligatorias.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+
+            LocalDate fecha = LocalDate.parse(fechaTF.getText().trim());
+            LocalTime hora = LocalTime.parse(horaTF.getText().trim());
+
+            Entrega entrega = new Entrega(idPedido, idRepartidor, fecha, hora);
+
+            entregaDAO.guardar(entrega);
+
+            JOptionPane.showMessageDialog(this, "Entrega registrada correctamente.");
+
+            refrescarTabla();
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(this, "La fecha u hora ingresada no tiene un formato válido.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -80,9 +179,47 @@ public class VentanaListaEntregas extends JFrame {
 
         String horaActual = modeloTabla.getValueAt(filaSeleccionada, 4).toString();
 
-        JTextField pedidoTF = new JTextField(String.valueOf(idPedido));
+        JComboBox<comboB> pedidoCB = new JComboBox<>();
+        JComboBox<comboB> repartidorCB = new JComboBox<>();
 
-        JTextField repartidorTF = new JTextField(String.valueOf(idRepartidor));
+        for (Object[] pedido : pedidoDAO.listarTodos()) {
+
+            int idPedidoCombo = (int) pedido[0];
+            String direccion = pedido[1].toString();
+
+            pedidoCB.addItem(
+                    new comboB(
+                            idPedidoCombo,
+                            idPedidoCombo + " - " + direccion
+                    )
+            );
+
+            if (idPedidoCombo == idPedido) {
+                pedidoCB.setSelectedIndex(
+                        pedidoCB.getItemCount() - 1
+                );
+            }
+        }
+
+        for (Object[] repartidor : repartidorDAO.listarTodosTabla()) {
+
+            int idRepartidorCombo = (int) repartidor[0];
+            String nombre = repartidor[1].toString();
+
+            repartidorCB.addItem(
+                    new comboB(
+                            idRepartidorCombo,
+                            idRepartidorCombo + " - " + nombre
+                    )
+            );
+
+            // Dejar seleccionado el repartidor actual de la entrega
+            if (idRepartidorCombo == idRepartidor) {
+                repartidorCB.setSelectedIndex(
+                        repartidorCB.getItemCount() - 1
+                );
+            }
+        }
 
         JTextField fechaTF = new JTextField(fechaActual);
 
@@ -90,11 +227,11 @@ public class VentanaListaEntregas extends JFrame {
 
         JPanel panel = new JPanel(new GridLayout(0, 1));
 
-        panel.add(new JLabel("ID Pedido:"));
-        panel.add(pedidoTF);
+        panel.add(new JLabel("Pedido:"));
+        panel.add(pedidoCB);
 
-        panel.add(new JLabel("ID Repartidor:"));
-        panel.add(repartidorTF);
+        panel.add(new JLabel("Repartidor:"));
+        panel.add(repartidorCB);
 
         panel.add(new JLabel("Fecha (AAAA-MM-DD):"));
         panel.add(fechaTF);
@@ -108,12 +245,26 @@ public class VentanaListaEntregas extends JFrame {
             return;
         }
 
-        try {
+        comboB pedidoSeleccionado = (comboB) pedidoCB.getSelectedItem();
 
-            int nuevoIdPedido = Integer.parseInt(pedidoTF.getText().trim());
+        comboB repartidorSeleccionado = (comboB) repartidorCB.getSelectedItem();
 
-            int nuevoIdRepartidor = Integer.parseInt(repartidorTF.getText().trim());
+            if (pedidoSeleccionado == null ||  repartidorSeleccionado == null) {
 
+                JOptionPane.showMessageDialog(this,"Debe seleccionar un pedido y un repartidor.","Error",JOptionPane.ERROR_MESSAGE);
+
+                return;
+            }
+
+            int nuevoIdPedido = pedidoSeleccionado.getId();
+            int nuevoIdRepartidor = repartidorSeleccionado.getId();
+
+            if (fechaTF.getText().trim().isEmpty() || horaTF.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "La fecha y la hora son obligatorias.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+        try{
             LocalDate nuevaFecha = LocalDate.parse(fechaTF.getText().trim());
 
             LocalTime nuevaHora = LocalTime.parse(horaTF.getText().trim());
@@ -137,14 +288,9 @@ public class VentanaListaEntregas extends JFrame {
 
                 JOptionPane.showMessageDialog(this,"No se pudo actualizar la entrega.","Error",JOptionPane.ERROR_MESSAGE);
             }
+        } catch (Exception e){
 
-        } catch (NumberFormatException e) {
-
-            JOptionPane.showMessageDialog(this,"Los identificadores deben ser números.","Error",JOptionPane.ERROR_MESSAGE);
-
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(this,"La fecha u hora ingresada no tiene un formato válido.","Error",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,"La fecha u hora ingresada no tiene un formato válido.","Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -176,6 +322,27 @@ public class VentanaListaEntregas extends JFrame {
         } else {
 
             JOptionPane.showMessageDialog(this,"No se pudo eliminar la entrega.","Error",JOptionPane.ERROR_MESSAGE );
+        }
+
+
+    }
+    private static class comboB {
+
+        private final int id;
+        private final String texto;
+
+        public comboB(int id, String texto) {
+            this.id = id;
+            this.texto = texto;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        @Override
+        public String toString() {
+            return texto;
         }
     }
 }

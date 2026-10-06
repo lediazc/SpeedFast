@@ -38,6 +38,7 @@ public class PedidoDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al listar los pedidos de la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         return pedidos;
@@ -66,8 +67,9 @@ public class PedidoDAO {
             return true;
 
 
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al guardar el pedido en la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -88,8 +90,9 @@ public class PedidoDAO {
             int filasAfctualizada = stmt.executeUpdate();
 
             return filasAfctualizada > 0;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al actualizar el pedido en la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
@@ -107,8 +110,9 @@ public class PedidoDAO {
             int filasEliminadas = stmt.executeUpdate();
 
             return filasEliminadas > 0;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al eliminar el pedido de la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -129,6 +133,7 @@ public class PedidoDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al actualizar el estado del pedido en la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -155,6 +160,7 @@ public class PedidoDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al listar los pedidos pendientes de la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         return pedidos;

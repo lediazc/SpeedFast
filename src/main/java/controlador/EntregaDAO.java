@@ -59,6 +59,7 @@ public class EntregaDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al listar las entregas de la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         return entregas;
@@ -83,6 +84,7 @@ public class EntregaDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al actualizar la entrega en la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -102,6 +104,7 @@ public class EntregaDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al eliminar la entrega de la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

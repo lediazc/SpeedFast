@@ -62,6 +62,7 @@ public class RepartidorDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al guardar el repartidor en la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -82,6 +83,7 @@ public class RepartidorDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al actualizar el repartidor en la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -101,6 +103,7 @@ public class RepartidorDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al eliminar el repartidor de la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
@@ -125,6 +128,7 @@ public class RepartidorDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al listar los repartidores de la BBDD.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         return repartidores;
