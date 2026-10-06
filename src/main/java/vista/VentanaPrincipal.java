@@ -66,11 +66,22 @@ public class VentanaPrincipal extends JFrame {
         boolean iniciado = controladorPedidos.iniciarEntregas();
 
         if (iniciado) {
+
             if (ventanaListaPedidos == null || !ventanaListaPedidos.isVisible()) {
                 abreVentanaListaPedidos();
             }
+
+            Timer timer = new Timer(5000, e -> {
+                if (ventanaListaPedidos != null && ventanaListaPedidos.isVisible()) {
+                    ventanaListaPedidos.refrescarTabla();
+                }
+            });
+
+            timer.setRepeats(false);
+            timer.start();
+
         } else {
-            JOptionPane.showMessageDialog(  this, "No existen pedidos pendientes.", "Aviso", JOptionPane.WARNING_MESSAGE );
+            JOptionPane.showMessageDialog(this, "No existen pedidos pendientes.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }
 

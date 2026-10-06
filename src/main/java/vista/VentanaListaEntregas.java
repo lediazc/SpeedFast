@@ -33,6 +33,9 @@ public class VentanaListaEntregas extends JFrame {
     private final JButton editarJB = new JButton("Editar");
     private final JButton eliminarJB = new JButton("Eliminar");
 
+    private final JComboBox<String> filtroCB = new JComboBox<>(new String[]{"Todos", "Pedido", "Repartidor"});
+    private final JComboBox<ComboB> valorFiltroCB = new JComboBox<>();
+
     public VentanaListaEntregas() {
 
         setTitle("Listado de entregas");
@@ -44,37 +47,95 @@ public class VentanaListaEntregas extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(tablaEntregas);
 
+        JPanel panelFiltros = new JPanel();
+        panelFiltros.add(new JLabel("Filtrar por:"));
+        panelFiltros.add(filtroCB);
+        panelFiltros.add(valorFiltroCB);
+
         JPanel panelBotones = new JPanel();
 
         panelBotones.add(registrarJB);
         panelBotones.add(editarJB);
         panelBotones.add(eliminarJB);
 
+        add(panelFiltros, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(panelBotones, BorderLayout.SOUTH);
 
         registrarJB.addActionListener(e -> registrarEntrega());
         editarJB.addActionListener(e -> editarEntrega());
         eliminarJB.addActionListener(e -> eliminarEntrega());
+        filtroCB.addActionListener(e -> cargarValoresFiltro());
+        valorFiltroCB.addActionListener(e -> refrescarTabla());
 
+        cargarValoresFiltro();
         refrescarTabla();
 
         setVisible(true);
+    }
+
+    private void cargarValoresFiltro() {
+
+        valorFiltroCB.removeAllItems();
+
+        String filtro = (String) filtroCB.getSelectedItem();
+        if ("Todos".equals(filtro)) {
+            valorFiltroCB.addItem(new ComboB(0, "Sin filtro"));
+        }
+
+        if ("Pedido".equals(filtro)) {
+
+            for (Object[] pedido : pedidoDAO.listarTodos()) {
+                int id = (int) pedido[0];
+                String direccion = pedido[1].toString();
+
+                valorFiltroCB.addItem(new ComboB(id, id + " - " + direccion));
+            }
+
+        } else if ("Repartidor".equals(filtro)) {
+
+            for (Object[] repartidor : repartidorDAO.listarTodosTabla()) {
+                int id = (int) repartidor[0];
+                String nombre = repartidor[1].toString();
+
+                valorFiltroCB.addItem(new ComboB(id, id + " - " + nombre));
+
+
+            }
+        }
     }
 
     public void refrescarTabla() {
 
         modeloTabla.setRowCount(0);
 
+        String filtro = (String) filtroCB.getSelectedItem();
+        ComboB valorSeleccionado = (ComboB) valorFiltroCB.getSelectedItem();
+
         for (Object[] entrega : entregaDAO.listarTodos()) {
-            modeloTabla.addRow(entrega);
+
+            if ("Todos".equals(filtro)) {
+                modeloTabla.addRow(entrega);
+
+            } else if (valorSeleccionado != null) {
+
+                int idFiltro = valorSeleccionado.getId();
+
+                if ("Pedido".equals(filtro) && (int) entrega[1] == idFiltro) {
+                    modeloTabla.addRow(entrega);
+                }
+
+                if ("Repartidor".equals(filtro) && (int) entrega[2] == idFiltro) {
+                    modeloTabla.addRow(entrega);
+                }
+            }
         }
     }
 
     private void registrarEntrega() {
 
-        JComboBox<comboB> pedidoCB = new JComboBox<>();
-        JComboBox<comboB> repartidorCB = new JComboBox<>();
+        JComboBox<ComboB> pedidoCB = new JComboBox<>();
+        JComboBox<ComboB> repartidorCB = new JComboBox<>();
 
         // Cargar pedidos desde la BD
         for (Object[] pedido : pedidoDAO.listarTodos()) {
@@ -83,7 +144,7 @@ public class VentanaListaEntregas extends JFrame {
             String direccion = pedido[1].toString();
 
             pedidoCB.addItem(
-                    new comboB(
+                    new ComboB(
                             idPedido,
                             idPedido + " - " + direccion
                     )
@@ -97,7 +158,7 @@ public class VentanaListaEntregas extends JFrame {
             String nombre = repartidor[1].toString();
 
             repartidorCB.addItem(
-                    new comboB(
+                    new ComboB(
                             idRepartidor,
                             idRepartidor + " - " + nombre
                     )
@@ -127,8 +188,8 @@ public class VentanaListaEntregas extends JFrame {
             return;
         }
 
-        comboB pedidoSeleccionado = (comboB) pedidoCB.getSelectedItem();
-        comboB repartidorSeleccionado = (comboB) repartidorCB.getSelectedItem();
+        ComboB pedidoSeleccionado = (ComboB) pedidoCB.getSelectedItem();
+        ComboB repartidorSeleccionado = (ComboB) repartidorCB.getSelectedItem();
 
         if (pedidoSeleccionado == null || repartidorSeleccionado == null) {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un pedido y un repartidor.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -179,8 +240,8 @@ public class VentanaListaEntregas extends JFrame {
 
         String horaActual = modeloTabla.getValueAt(filaSeleccionada, 4).toString();
 
-        JComboBox<comboB> pedidoCB = new JComboBox<>();
-        JComboBox<comboB> repartidorCB = new JComboBox<>();
+        JComboBox<ComboB> pedidoCB = new JComboBox<>();
+        JComboBox<ComboB> repartidorCB = new JComboBox<>();
 
         for (Object[] pedido : pedidoDAO.listarTodos()) {
 
@@ -188,7 +249,7 @@ public class VentanaListaEntregas extends JFrame {
             String direccion = pedido[1].toString();
 
             pedidoCB.addItem(
-                    new comboB(
+                    new ComboB(
                             idPedidoCombo,
                             idPedidoCombo + " - " + direccion
                     )
@@ -207,7 +268,7 @@ public class VentanaListaEntregas extends JFrame {
             String nombre = repartidor[1].toString();
 
             repartidorCB.addItem(
-                    new comboB(
+                    new ComboB(
                             idRepartidorCombo,
                             idRepartidorCombo + " - " + nombre
                     )
@@ -245,9 +306,9 @@ public class VentanaListaEntregas extends JFrame {
             return;
         }
 
-        comboB pedidoSeleccionado = (comboB) pedidoCB.getSelectedItem();
+        ComboB pedidoSeleccionado = (ComboB) pedidoCB.getSelectedItem();
 
-        comboB repartidorSeleccionado = (comboB) repartidorCB.getSelectedItem();
+        ComboB repartidorSeleccionado = (ComboB) repartidorCB.getSelectedItem();
 
             if (pedidoSeleccionado == null ||  repartidorSeleccionado == null) {
 
@@ -326,12 +387,12 @@ public class VentanaListaEntregas extends JFrame {
 
 
     }
-    private static class comboB {
+    private static class ComboB {
 
         private final int id;
         private final String texto;
 
-        public comboB(int id, String texto) {
+        public ComboB(int id, String texto) {
             this.id = id;
             this.texto = texto;
         }
